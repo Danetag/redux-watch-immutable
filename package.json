@@ -1,0 +1,27 @@
+{
+  "name": "redux-watch-immutable",
+  "description": "Redux Watch Immutable",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Arnaud Tanielian, Abhaya Rawal",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danetag/redux-watch-immutable"
+  },
+  "bugs": {
+    "url": "https://github.com/danetag/redux-watch-immutable/issues"
+  },
+  "app": {},
+  "engines": {
+    "node": "latest",
+    "npm": "latest"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  },
+  "main" : "./src/redux-watch-immutable.js"
+}
