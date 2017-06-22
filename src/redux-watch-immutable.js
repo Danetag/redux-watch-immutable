@@ -58,7 +58,7 @@ export const addWatcher = (objectPath = '', callback = null) => {
         });
 
         if (check) {
-          // add the callback yo an existing path
+          // add the callback to an existing path
           aPath[idx].aCallback.push(callback);
         }
     } else {
@@ -76,7 +76,7 @@ export const addWatcher = (objectPath = '', callback = null) => {
             // delete only the callback. If last callback, delete the path
             let idxCb = 0;
             aPath[idx].aCallback.forEach((cb, i) => {
-                if (cb === this.callback) idxCb = i;
+                if (cb === callback) idxCb = i;
             });
 
             aPath[idx].aCallback.splice(idxCb, 1);

@@ -34,8 +34,10 @@ setCompareMethod(isEqual);
 
 `addWatcher(objectPath [, callback])` -> `function`
 
-Add a watcher on a specific path of the store and a callback for when the value changes. Returns a function to call when you want to unsubscribe.
-The callback return the new value, the previous one, and the current path.
+Add a watcher on a specific path of the store and a callback for when the value changes. 
+It returns a function to call when you want to unsubscribe.
+
+The callback returns the new value, the previous one, and the current path.
 
 ### Example
 
@@ -61,6 +63,10 @@ const _onAdminNameChanged = (name, prevName, path) {
 
 // Somewhere else, admin reducer handles ADMIN_UPDATE
 store.dispatch({ type: 'ADMIN_UPDATE', payload: { name: 'JOE' }})
+
+
+// Remove a watcher
+watcher();
 
 ```
 
