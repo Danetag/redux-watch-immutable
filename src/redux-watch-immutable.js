@@ -8,25 +8,20 @@ let compareValues = (a, b) => {
     return a === b;
 };
 
-const compareStates = (a, b) => {
-  return a.equals(b);
-};
-
-const watch = () => {
+const watch_ = () => {
     const prev = currentState;
     currentState = store.getState();
 
-    if (!compareStates(prev, currentState)) {
-        aPath.forEach((o, i) => {
-            const splitPath = o.path.split('.');
-            if (!compareValues(currentState.getIn(splitPath), prev.getIn(splitPath))) {
-                o.aCallback.forEach((cb) => {
-                    // setTimeout: to make sure the stack is free
-                    setTimeout(() => cb(currentState.getIn(splitPath), prev.getIn(splitPath), o.path), 0);
-                });
-            }
-        });
-    }
+    aPath.forEach((o, i) => {
+        const currentValue = currentState.getIn(o.path);
+        const prevValue = prev.getIn(o.path);
+        if (!compareValues(currentValue, prevValue)) {
+            o.aCallback.forEach((cb) => {
+                // setTimeout: to make sure the stack is free
+                setTimeout(() => cb(currentValue, prevValue, aPath[i]), 0);
+            });
+        }
+    });
 };
 
 /* API */
@@ -38,15 +33,15 @@ export const setStore = (store_ = null) => {
     }
     store = store_;
     currentState = store.getState();
-    store.subscribe(watch);
+    store.subscribe(watch_);
     return store;
 };
 
-export const setCompareMethod = (compare_ = null) => {
+export const setCompareFn = (compare_ = null) => {
     if (!compare_) compareValues = compare_;
 };
 
-export const addWatcher = (objectPath = '', callback = null) => {
+export const watch = (objectPath = '', callback = null) => {
     const idx = aPathExisting.indexOf(objectPath);
 
     // New path
@@ -58,12 +53,12 @@ export const addWatcher = (objectPath = '', callback = null) => {
         });
 
         if (check) {
-          // add the callback to an existing path
+          // add the callback yo an existing path
           aPath[idx].aCallback.push(callback);
         }
     } else {
         aPath.push({
-            path: objectPath,
+            path: objectPath.split('.'),
             aCallback: [callback]
         });
 

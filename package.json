@@ -7,7 +7,7 @@
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/danetag/redux-watch-immutable"
+    "url": "git+https://github.com/danetag/redux-watch-immutable.git"
   },
   "bugs": {
     "url": "https://github.com/danetag/redux-watch-immutable/issues"
@@ -17,11 +17,16 @@
     "node": "latest",
     "npm": "latest"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
-  "scripts": {
-  },
-  "main" : "./src/redux-watch-immutable.js"
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {},
+  "main": "./src/redux-watch-immutable.js",
+  "homepage": "https://github.com/danetag/redux-watch-immutable#readme",
+  "keywords": [
+    "immutable",
+    "redux",
+    "watcher",
+    "observer"
+  ],
+  "license": "MIT"
 }
