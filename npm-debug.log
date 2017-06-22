@@ -1,64 +1,103 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/Users/danetag/.nvm/versions/node/v5.0.0/bin/node',
 1 verbose cli   '/Users/danetag/.nvm/versions/node/v5.0.0/bin/npm',
-1 verbose cli   'owner',
-1 verbose cli   'add',
-1 verbose cli   'abhayarawal' ]
+1 verbose cli   'publish' ]
 2 info using npm@3.3.6
 3 info using node@v5.0.0
-4 verbose owner add abhayarawal to redux-watch-immutable
-5 silly mapToRegistry name -/user/org.couchdb.user:abhayarawal
-6 silly mapToRegistry using default registry
-7 silly mapToRegistry registry https://registry.npmjs.org/
-8 silly mapToRegistry uri https://registry.npmjs.org/-/user/org.couchdb.user:abhayarawal
-9 verbose request uri https://registry.npmjs.org/-/user/org.couchdb.user:abhayarawal
-10 verbose request new user, so can't send auth
-11 info attempt registry request try #1 at 9:04:42 PM
-12 verbose request using bearer token for auth
-13 verbose request id 5c498db194559c54
-14 http request GET https://registry.npmjs.org/-/user/org.couchdb.user:abhayarawal
-15 http 404 https://registry.npmjs.org/-/user/org.couchdb.user:abhayarawal
-16 verbose headers { 'content-type': 'application/json',
-16 verbose headers   'cache-control': 'max-age=0',
-16 verbose headers   'content-length': '12',
-16 verbose headers   'accept-ranges': 'bytes',
-16 verbose headers   date: 'Thu, 22 Jun 2017 01:04:43 GMT',
-16 verbose headers   via: '1.1 varnish',
-16 verbose headers   connection: 'keep-alive',
-16 verbose headers   'x-served-by': 'cache-jfk8128-JFK',
-16 verbose headers   'x-cache': 'MISS',
-16 verbose headers   'x-cache-hits': '0',
-16 verbose headers   'x-timer': 'S1498093483.657868,VS0,VE346' }
-17 silly get cb [ 404,
-17 silly get   { 'content-type': 'application/json',
-17 silly get     'cache-control': 'max-age=0',
-17 silly get     'content-length': '12',
-17 silly get     'accept-ranges': 'bytes',
-17 silly get     date: 'Thu, 22 Jun 2017 01:04:43 GMT',
-17 silly get     via: '1.1 varnish',
-17 silly get     connection: 'keep-alive',
-17 silly get     'x-served-by': 'cache-jfk8128-JFK',
-17 silly get     'x-cache': 'MISS',
-17 silly get     'x-cache-hits': '0',
-17 silly get     'x-timer': 'S1498093483.657868,VS0,VE346' } ]
-18 error owner mutate Error getting user data for abhayarawal
-19 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/-/user/org.couchdb.user:abhayarawal
-19 verbose stack     at makeError (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
-19 verbose stack     at CachingRegistryClient.<anonymous> (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:242:14)
-19 verbose stack     at Request._callback (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
-19 verbose stack     at Request.self.callback (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/request/request.js:198:22)
-19 verbose stack     at emitTwo (events.js:87:13)
-19 verbose stack     at Request.emit (events.js:172:7)
-19 verbose stack     at Request.<anonymous> (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/request/request.js:1063:14)
-19 verbose stack     at emitOne (events.js:82:20)
-19 verbose stack     at Request.emit (events.js:169:7)
-19 verbose stack     at IncomingMessage.<anonymous> (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/request/request.js:1009:12)
-20 verbose statusCode 404
-21 verbose cwd /Users/danetag/Sites/libs/redux-watch-immutable
-22 error Darwin 16.6.0
-23 error argv "/Users/danetag/.nvm/versions/node/v5.0.0/bin/node" "/Users/danetag/.nvm/versions/node/v5.0.0/bin/npm" "owner" "add" "abhayarawal"
-24 error node v5.0.0
-25 error npm  v3.3.6
-26 error code E404
-27 error 404 Registry returned 404 for GET on https://registry.npmjs.org/-/user/org.couchdb.user:abhayarawal
-28 verbose exit [ 1, true ]
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/danetag/Sites/libs/redux-watch-immutable',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/danetag/.npm/redux-watch-immutable/0.0.1/package.tgz not in flight; packing
+9 info lifecycle redux-watch-immutable@0.0.1~prepublish: redux-watch-immutable@0.0.1
+10 silly lifecycle redux-watch-immutable@0.0.1~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/Users/danetag/.npm/redux-watch-immutable/0.0.1/package.tgz',
+11 verbose tar pack   '/Users/danetag/Sites/libs/redux-watch-immutable' ]
+12 verbose tarball /Users/danetag/.npm/redux-watch-immutable/0.0.1/package.tgz
+13 verbose folder /Users/danetag/Sites/libs/redux-watch-immutable
+14 verbose addLocalTarball adding from inside cache /Users/danetag/.npm/redux-watch-immutable/0.0.1/package.tgz
+15 silly cache afterAdd redux-watch-immutable@0.0.1
+16 verbose afterAdd /Users/danetag/.npm/redux-watch-immutable/0.0.1/package/package.json not in flight; writing
+17 verbose afterAdd /Users/danetag/.npm/redux-watch-immutable/0.0.1/package/package.json written
+18 silly publish { name: 'redux-watch-immutable',
+18 silly publish   description: 'Redux Watch Immutable',
+18 silly publish   version: '0.0.1',
+18 silly publish   private: false,
+18 silly publish   author: { name: 'Arnaud Tanielian, Abhaya Rawal' },
+18 silly publish   contributors: [],
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/danetag/redux-watch-immutable.git' },
+18 silly publish   bugs: { url: 'https://github.com/danetag/redux-watch-immutable/issues' },
+18 silly publish   app: {},
+18 silly publish   engines: { node: 'latest', npm: 'latest' },
+18 silly publish   dependencies: {},
+18 silly publish   devDependencies: {},
+18 silly publish   scripts: {},
+18 silly publish   main: './src/redux-watch-immutable.js',
+18 silly publish   homepage: 'https://github.com/danetag/redux-watch-immutable#readme',
+18 silly publish   keywords: [ 'immutable', 'redux', 'watcher', 'observer' ],
+18 silly publish   license: 'MIT',
+18 silly publish   readme: '## Redux Watch Immutable\n\nWatch/observe Redux store state changes using Immutable.js.\n\n### Why?\n\n[Redux-watch](https://github.com/jprichardson/redux-watch) is a small but helpful library that associate a `callback()` to a `path-to-the-store`.\nUnfortunalety, it\'s not optimized/made to work with Immutable.js. So we took the main concept and made it work :wink:\n\n### Install\n\n```\nnpm i --save redux-watch-immutable\n```\n\n### Usage\n\n`setStore(store)` -> `store`\n\nSet your store. *This is a mandatory step!*\n\n\n`setCompareFn(function)`\n\nBy default, `redux-watch-immutable` uses `===` (strict equal) operator to check for changes. This may not be want you want. Sometimes you may want to do a deep inspection. You should use either [deep-equal](https://www.npmjs.com/package/deep-equal) ([substack/node-deep-equal](https://github.com/substack/node-deep-equal)) or [is-equal](https://www.npmjs.com/package/is-equal) ([ljharb/is-equal](https://github.com/ljharb/is-equal)). `is-equal` is better since it supports ES6 types like Maps/Sets.\n\n```js\nimport isEqual from \'is-equal\'\nimport {setCompareFn} from \'redux-watch-immutable\'\n\nsetCompareFn(isEqual);\n```\n\n\n`watch(objectPath , callback)` -> `function`\n\nAdd a watcher on a specific path of the store and a callback for when the value changes. \nIt returns a function to call when you want to unsubscribe.\n\nThe callback returns the new value, the previous one, and the current path.\n\n### Example\n\n```js\nimport {setStore, setCompareFn, watch} from \'redux-watch-immutable\';\nimport isEqual from \'is-equal\'\nimport store from \'store\';\n\n// First, set the store\nsetStore(store);\n\n// We want to use isEqual to compare values\nsetCompareFn(isEqual);\n\n\n// Then, add as many watchers as you need\nconst watcher = watch(\'admin.name\', ::_onAdminNameChanged);\n\nconst _onAdminNameChanged = (name, prevName, path) {\n\t// console.log(\'new name!\', name);\n};\n\n\n// Somewhere else, admin reducer handles ADMIN_UPDATE\nstore.dispatch({ type: \'ADMIN_UPDATE\', payload: { name: \'JOE\' }})\n\n\n// Remove a watcher\nwatcher();\n\n```\n\n## License\n\nMIT\n\nCopyright (c) [Arnaud Tanielian](https://github.com/danetag), [Abhaya Rawal](https://github.com/abhayarawal)',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: 'c22363f7336af1f570c5f1d597d76726802c4a10',
+18 silly publish   _id: 'redux-watch-immutable@0.0.1',
+18 silly publish   _shasum: '7d0da6289416a4e338f461a8fae8fb88778ad784',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name redux-watch-immutable
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/redux-watch-immutable
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /Users/danetag/.npm/redux-watch-immutable/0.0.1/package.tgz
+26 verbose request uri https://registry.npmjs.org/redux-watch-immutable
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 11:09:08 AM
+29 verbose request using bearer token for auth
+30 verbose request id a66f1ae37d1fb9c6
+31 http request PUT https://registry.npmjs.org/redux-watch-immutable
+32 http 403 https://registry.npmjs.org/redux-watch-immutable
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '95',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Thu, 22 Jun 2017 15:09:10 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-jfk8149-JFK',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1498144150.098219,VS0,VE771',
+33 verbose headers   vary: 'Accept-Encoding' }
+34 verbose request invalidating /Users/danetag/.npm/registry.npmjs.org/redux-watch-immutable on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 0.0.1." : redux-watch-immutable
+36 verbose stack     at makeError (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/request/request.js:1063:14)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/Users/danetag/.nvm/versions/node/v5.0.0/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid redux-watch-immutable
+39 verbose cwd /Users/danetag/Sites/libs/redux-watch-immutable
+40 error Darwin 16.6.0
+41 error argv "/Users/danetag/.nvm/versions/node/v5.0.0/bin/node" "/Users/danetag/.nvm/versions/node/v5.0.0/bin/npm" "publish"
+42 error node v5.0.0
+43 error npm  v3.3.6
+44 error code E403
+45 error "You cannot publish over the previously published version 0.0.1." : redux-watch-immutable
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
