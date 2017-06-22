@@ -1,7 +1,7 @@
 {
   "name": "redux-watch-immutable",
   "description": "Redux Watch Immutable",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "author": "Arnaud Tanielian, Abhaya Rawal",
   "contributors": [],
@@ -14,8 +14,8 @@
   },
   "app": {},
   "engines": {
-    "node": "latest",
-    "npm": "latest"
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
   },
   "dependencies": {},
   "devDependencies": {},
