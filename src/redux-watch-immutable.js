@@ -67,18 +67,20 @@ export const watch = (objectPath = '', callback = null) => {
 
     // return the dispose function
     return () => {
-        if (idx > -1) {
+        const idxPath = aPathExisting.indexOf(objectPath);
+
+        if (idxPath > -1) {
             // delete only the callback. If last callback, delete the path
-            let idxCb = 0;
-            aPath[idx].aCallback.forEach((cb, i) => {
+            let idxCb = -1;
+            aPath[idxPath].aCallback.forEach((cb, i) => {
                 if (cb === callback) idxCb = i;
             });
 
-            aPath[idx].aCallback.splice(idxCb, 1);
+            if (idxCb > -1) aPath[idxPath].aCallback.splice(idxCb, 1);
 
-            if (!aPath[idx].aCallback.length) {
-                aPath.splice(idx, 1);
-                aPathExisting.splice(idx, 1);
+            if (!aPath[idxPath].aCallback.length) {
+                aPath.splice(idxPath, 1);
+                aPathExisting.splice(idxPath, 1);
             }
         }
     };
