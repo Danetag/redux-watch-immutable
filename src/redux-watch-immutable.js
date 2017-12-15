@@ -1,5 +1,6 @@
 let store = null;
 let currentState = null;
+let stateGetter = null;
 
 const aPath = [];
 const aPathExisting = [];
@@ -8,9 +9,13 @@ let compareValues = (a, b) => {
     return a === b;
 };
 
+let defaultStateGetter = (store) => {
+    return store.getState();
+};
+
 const watch_ = () => {
     const prev = currentState;
-    currentState = store.getState();
+    currentState = stateGetter(store);
 
     aPath.forEach((o, i) => {
         const currentValue = currentState.getIn(o.path);
@@ -26,16 +31,18 @@ const watch_ = () => {
 
 /* API */
 
-export const setStore = (store_ = null) => {
+export const setStore = (store_ = null, customStateGetter) => {
     if (!store_) {
         console.error('You haven\'t provided a store');
         return false;
     }
     store = store_;
-    currentState = store.getState();
+    stateGetter = customStateGetter || defaultStateGetter;
+    currentState = stateGetter(store);
     store.subscribe(watch_);
     return store;
 };
+
 
 export const setCompareFn = (compare_ = null) => {
     if (!compare_) compareValues = compare_;
