@@ -42,7 +42,7 @@ The callback returns the new value, the previous one, and the current path.
 ### Example
 
 ```js
-import {setStore, setCompareFn, watch} from 'redux-watch-immutable';
+import { setStore, setCompareFn, watch } from 'redux-watch-immutable';
 import isEqual from 'is-equal'
 import store from 'store';
 
@@ -52,22 +52,18 @@ setStore(store);
 // We want to use isEqual to compare values
 setCompareFn(isEqual);
 
-
 // Then, add as many watchers as you need
-const watcher = watch('admin.name', ::_onAdminNameChanged);
+const removeWatcher = watch('admin.name', onAdminNameChanged);
 
-const _onAdminNameChanged = (name, prevName, path) {
+const onAdminNameChanged = (name, prevName, path) => {
 	// console.log('new name!', name);
 };
-
 
 // Somewhere else, admin reducer handles ADMIN_UPDATE
 store.dispatch({ type: 'ADMIN_UPDATE', payload: { name: 'JOE' }})
 
-
 // Remove a watcher
-watcher();
-
+removeWatcher();
 ```
 
 ## License
