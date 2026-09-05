@@ -1,7 +1,7 @@
 {
   "name": "redux-watch-immutable",
-  "description": "Redux Watch Immutable",
-  "version": "0.0.4",
+  "description": "Watch Immutable.js values in a Redux store",
+  "version": "1.0.0",
   "private": false,
   "author": "Arnaud Tanielian, Abhaya Rawal",
   "contributors": [],
@@ -12,21 +12,43 @@
   "bugs": {
     "url": "https://github.com/danetag/redux-watch-immutable/issues"
   },
-  "app": {},
-  "engines": {
-    "node": ">=4.0.0",
-    "npm": ">=3.0.0"
-  },
-  "dependencies": {},
-  "devDependencies": {},
-  "scripts": {},
-  "main": "./src/redux-watch-immutable.js",
   "homepage": "https://github.com/danetag/redux-watch-immutable#readme",
+  "license": "MIT",
   "keywords": [
     "immutable",
     "redux",
     "watcher",
     "observer"
   ],
-  "license": "MIT"
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "immutable": "^4.0.0 || ^5.0.0",
+    "redux": ">=3.0.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p jsconfig.json"
+  },
+  "devDependencies": {
+    "immutable": "^5.1.3",
+    "redux": "^5.0.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
 }

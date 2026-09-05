@@ -1,69 +1,96 @@
-## Redux Watch Immutable
+# Redux Watch Immutable
 
-Watch/observe Redux store state changes using Immutable.js.
+Watch values in an Immutable.js Redux state tree. Version 1 modernizes the original package as standards-based ESM JavaScript while preserving the classic `setStore`, `setCompareFn`, and `watch` API.
 
-### Why?
+The package ships its source directly: there is no build step. Invalid arguments throw `TypeError` instead of being silently accepted or logged.
 
-[Redux-watch](https://github.com/jprichardson/redux-watch) is a small but helpful library that associate a `callback()` to a `path-to-the-store`.
-Unfortunalety, it's not optimized/made to work with Immutable.js. So we took the main concept and made it work :wink:
+## Install
 
-### Install
-
-```
-npm i --save redux-watch-immutable
+```sh
+npm install redux-watch-immutable immutable redux
 ```
 
-### Usage
+`immutable` and `redux` are peer dependencies. Supported versions are Immutable.js 4 or 5 and Redux 3 or newer. Node.js 20 or newer is required.
 
-`setStore(store)` -> `store`
-
-Set your store. *This is a mandatory step!*
-
-
-`setCompareFn(function)`
-
-By default, `redux-watch-immutable` uses `===` (strict equal) operator to check for changes. This may not be want you want. Sometimes you may want to do a deep inspection. You should use either [deep-equal](https://www.npmjs.com/package/deep-equal) ([substack/node-deep-equal](https://github.com/substack/node-deep-equal)) or [is-equal](https://www.npmjs.com/package/is-equal) ([ljharb/is-equal](https://github.com/ljharb/is-equal)). `is-equal` is better since it supports ES6 types like Maps/Sets.
+## Usage
 
 ```js
-import isEqual from 'is-equal'
-import {setCompareFn} from 'redux-watch-immutable'
+import {setCompareFn, setStore, watch} from 'redux-watch-immutable';
+import {is} from 'immutable';
+import store from './store.js';
 
-setCompareFn(isEqual);
-```
-
-
-`watch(objectPath , callback)` -> `function`
-
-Add a watcher on a specific path of the store and a callback for when the value changes. 
-It returns a function to call when you want to unsubscribe.
-
-The callback returns the new value, the previous one, and the current path.
-
-### Example
-
-```js
-import { setStore, setCompareFn, watch } from 'redux-watch-immutable';
-import isEqual from 'is-equal'
-import store from 'store';
-
-// First, set the store
 setStore(store);
+setCompareFn(is);
 
-// We want to use isEqual to compare values
-setCompareFn(isEqual);
+const removeWatcher = watch('admin.name', (name, previousName, path) => {
+  console.log('new name', name, {previousName, path});
+});
 
-// Then, add as many watchers as you need
-const removeWatcher = watch('admin.name', onAdminNameChanged);
-
-const onAdminNameChanged = (name, prevName, path) => {
-	// console.log('new name!', name);
-};
-
-// Somewhere else, admin reducer handles ADMIN_UPDATE
-store.dispatch({ type: 'ADMIN_UPDATE', payload: { name: 'JOE' }})
-
-// Remove a watcher
+// Later:
 removeWatcher();
+```
+
+Version 1 is ESM-only. CommonJS `require()` is not supported.
+
+The source uses `// @ts-check` and documented JSDoc types, which provide type information and editor feedback in JavaScript projects. The package does not bundle TypeScript declaration (`.d.ts`) files.
+
+## API
+
+### `setStore(store, customStateGetter?)`
+
+Configures the Redux-compatible store and initializes the current state. The store must provide `getState()` and `subscribe()` methods. State values are read through Immutable.js `getIn(path)`.
+
+An optional state getter can select the Immutable state when it is nested inside another value:
+
+```js
+setStore(store, (configuredStore) => configuredStore.getState().immutableState);
+```
+
+Calling `setStore` again unsubscribes from the previously configured store when its subscription provides an unsubscribe function.
+
+### `setCompareFn(compareFn)`
+
+Sets the equality function used by all watchers. It receives the current and previous values and must return `true` when they should be considered equal. Strict equality (`===`) is used by default.
+
+```js
+import {is} from 'immutable';
+
+setCompareFn(is);
+```
+
+### `watch(objectPath, callback)`
+
+Watches a non-empty dot-separated path such as `admin.name`. The callback runs asynchronously after the store subscription fires and receives:
+
+1. the new value;
+2. the previous value;
+3. the path as an array of strings.
+
+```js
+const unsubscribe = watch('admin.name', (name, previousName, path) => {
+  console.log({name, previousName, path});
+});
+
+unsubscribe();
+```
+
+Registering the same callback more than once for the same path does not duplicate notifications. Calling the returned function removes that callback. Missing Immutable.js paths resolve to `undefined` safely.
+
+## Upgrading from v0
+
+- Version 1 is ESM-only; CommonJS `require()` is not supported.
+- Node.js 20 or newer is required.
+- Invalid arguments now throw `TypeError`.
+- `setCompareFn` now correctly applies the comparator passed to it.
+- Malformed paths with leading, trailing, or consecutive dots now throw `TypeError`.
+
+## Development
+
+```sh
+npm install
+npm test
+npm run typecheck
+npm pack --dry-run
 ```
 
 ## License
