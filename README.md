@@ -1,8 +1,8 @@
 # Redux Watch Immutable
 
-Watch values in an Immutable.js Redux state tree. This release modernizes the package with TypeScript and ESM/CommonJS builds while preserving the classic `setStore`, `setCompareFn`, and `watch` API.
+Watch values in an Immutable.js Redux state tree. Version 1 modernizes the original package as standards-based ESM JavaScript while preserving the classic `setStore`, `setCompareFn`, and `watch` API.
 
-> **Version 1:** Packaging and runtime support are modernized. Invalid arguments now throw `TypeError` instead of being silently accepted or logged.
+The package ships its source directly: there is no build step. Invalid arguments throw `TypeError` instead of being silently accepted or logged.
 
 ## Install
 
@@ -10,40 +10,29 @@ Watch values in an Immutable.js Redux state tree. This release modernizes the pa
 npm install redux-watch-immutable immutable redux
 ```
 
-`immutable` and `redux` are peer dependencies. Supported versions are Immutable.js 4 or 5 and Redux 3 or newer.
+`immutable` and `redux` are peer dependencies. Supported versions are Immutable.js 4 or 5 and Redux 3 or newer. Node.js 20 or newer is required.
 
 ## Usage
 
-### ESM / TypeScript
-
-```ts
+```js
 import {setCompareFn, setStore, watch} from 'redux-watch-immutable';
-import store from './store';
-
-const onAdminNameChanged = (
-  name: unknown,
-  previousName: unknown,
-  path: readonly string[],
-) => {
-  console.log('new name', name, {previousName, path});
-};
+import {is} from 'immutable';
+import store from './store.js';
 
 setStore(store);
-setCompareFn((current, previous) => current === previous);
+setCompareFn(is);
 
-const removeWatcher = watch('admin.name', onAdminNameChanged);
+const removeWatcher = watch('admin.name', (name, previousName, path) => {
+  console.log('new name', name, {previousName, path});
+});
 
 // Later:
 removeWatcher();
 ```
 
-Type declarations are included in the package.
+Version 1 is ESM-only. CommonJS `require()` is not supported.
 
-### CommonJS
-
-```js
-const {setStore, setCompareFn, watch} = require('redux-watch-immutable');
-```
+The source uses `// @ts-check` and documented JSDoc types, which provide type information and editor feedback in JavaScript projects. The package does not bundle TypeScript declaration (`.d.ts`) files.
 
 ## API
 
@@ -85,15 +74,15 @@ const unsubscribe = watch('admin.name', (name, previousName, path) => {
 unsubscribe();
 ```
 
-Registering the same callback more than once for the same path does not duplicate notifications. Calling the returned function removes that callback.
+Registering the same callback more than once for the same path does not duplicate notifications. Calling the returned function removes that callback. Missing Immutable.js paths resolve to `undefined` safely.
 
 ## Development
 
 ```sh
 npm install
 npm test
-npm run build
 npm run typecheck
+npm pack --dry-run
 ```
 
 ## License

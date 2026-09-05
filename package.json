@@ -23,18 +23,16 @@
   "engines": {
     "node": ">=20"
   },
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "type": "module",
+  "main": "./src/index.js",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": "./src/index.js",
+      "default": "./src/index.js"
     }
   },
   "files": [
-    "dist",
+    "src",
     "README.md",
     "LICENSE"
   ],
@@ -44,10 +42,8 @@
     "redux": ">=3.0.0"
   },
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "prepack": "npm run build",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc -p jsconfig.json"
   },
   "devDependencies": {
     "immutable": "^5.1.3",

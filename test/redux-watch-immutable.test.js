@@ -1,21 +1,13 @@
 import {Map as ImmutableMap} from 'immutable';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
-import type {StoreLike} from '../src/index';
-
-type State = ImmutableMap<string, unknown>;
-type Library = typeof import('../src/index');
-
-const createStore = (initialState: State) => {
+const createStore = (initialState) => {
   let state = initialState;
-  const listeners = new Set<() => void>();
+  const listeners = new Set();
 
-  const store: StoreLike<State> & {
-    setState(nextState: State): void;
-    listenerCount(): number;
-  } = {
+  const store = {
     getState: () => state,
-    subscribe: vi.fn((listener: () => void) => {
+    subscribe: vi.fn((listener) => {
       listeners.add(listener);
       return () => listeners.delete(listener);
     }),
@@ -29,12 +21,12 @@ const createStore = (initialState: State) => {
   return store;
 };
 
-let library: Library;
+let library;
 
 beforeEach(async () => {
   vi.useFakeTimers();
   vi.resetModules();
-  library = await import('../src/index');
+  library = await import('../src/index.js');
 });
 
 afterEach(() => {
@@ -87,8 +79,8 @@ describe('redux-watch-immutable', () => {
   it('uses a custom compare function', () => {
     const store = createStore(ImmutableMap({admin: ImmutableMap({name: 'Ada'})}));
     const callback = vi.fn();
-    const compare = vi.fn((current, previous) =>
-      String(current).toLowerCase() === String(previous).toLowerCase(),
+    const compare = vi.fn(
+      (current, previous) => String(current).toLowerCase() === String(previous).toLowerCase(),
     );
     library.setStore(store);
     library.setCompareFn(compare);
@@ -151,12 +143,27 @@ describe('redux-watch-immutable', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
+  it('unsubscribes from the previous store when setStore is called again', () => {
+    const firstStore = createStore(ImmutableMap({count: 0}));
+    const secondStore = createStore(ImmutableMap({count: 0}));
+
+    library.setStore(firstStore);
+    expect(firstStore.listenerCount()).toBe(1);
+
+    library.setStore(secondStore);
+    expect(firstStore.listenerCount()).toBe(0);
+    expect(secondStore.listenerCount()).toBe(1);
+  });
+
   it('validates store and compare function arguments', () => {
-    expect(() => library.setStore(null as never)).toThrow(TypeError);
-    expect(() => library.setStore({getState: () => ImmutableMap()} as never)).toThrow(
+    expect(() => library.setStore(null)).toThrow(TypeError);
+    expect(() => library.setStore({getState: () => ImmutableMap()})).toThrow(
       /getState and subscribe/,
     );
-    expect(() => library.setCompareFn(null as never)).toThrow(/requires a function/);
+    expect(() => library.setStore(createStore(ImmutableMap()), null)).toThrow(
+      /customStateGetter must be a function/,
+    );
+    expect(() => library.setCompareFn(null)).toThrow(/requires a function/);
   });
 
   it('validates watch arguments', () => {
@@ -164,7 +171,7 @@ describe('redux-watch-immutable', () => {
 
     expect(() => library.watch('', callback)).toThrow(/non-empty string path/);
     expect(() => library.watch('   ', callback)).toThrow(/non-empty string path/);
-    expect(() => library.watch(null as never, callback)).toThrow(/non-empty string path/);
-    expect(() => library.watch('admin.name', null as never)).toThrow(/callback function/);
+    expect(() => library.watch(null, callback)).toThrow(/non-empty string path/);
+    expect(() => library.watch('admin.name', null)).toThrow(/callback function/);
   });
 });
