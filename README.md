@@ -76,6 +76,14 @@ unsubscribe();
 
 Registering the same callback more than once for the same path does not duplicate notifications. Calling the returned function removes that callback. Missing Immutable.js paths resolve to `undefined` safely.
 
+## Upgrading from v0
+
+- Version 1 is ESM-only; CommonJS `require()` is not supported.
+- Node.js 20 or newer is required.
+- Invalid arguments now throw `TypeError`.
+- `setCompareFn` now correctly applies the comparator passed to it.
+- Malformed paths with leading, trailing, or consecutive dots now throw `TypeError`.
+
 ## Development
 
 ```sh

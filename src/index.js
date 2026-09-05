@@ -39,7 +39,7 @@
  */
 
 /** @typedef {{getIn(path: readonly string[]): unknown}} ImmutableState */
-/** @typedef {{path: string[], callbacks: Set<WatchCallback<any>>}} Watcher */
+/** @typedef {{path: readonly string[], callbacks: Set<WatchCallback<any>>}} Watcher */
 
 /** @type {StoreLike<any> | null} */
 let store = null;
@@ -61,10 +61,8 @@ const watchers = new Map();
  * @returns {unknown}
  */
 const getPathValue = (state, path) => {
-  if (state == null) return undefined;
-
-  const immutableState = /** @type {Partial<ImmutableState>} */ (state);
-  if (typeof immutableState.getIn !== 'function') {
+  const immutableState = /** @type {Partial<ImmutableState> | null | undefined} */ (state);
+  if (typeof immutableState?.getIn !== 'function') {
     throw new TypeError('Store state must provide an Immutable.js-compatible getIn method');
   }
 
@@ -77,14 +75,20 @@ const handleStoreChange = () => {
   const previousState = currentState;
   currentState = stateGetter(store);
 
-  watchers.forEach(({path, callbacks}) => {
+  watchers.forEach((watcher, objectPath) => {
+    const {path, callbacks} = watcher;
     const currentValue = getPathValue(currentState, path);
     const previousValue = getPathValue(previousState, path);
 
     if (!compareValues(currentValue, previousValue)) {
       callbacks.forEach((callback) => {
         // Keep callbacks asynchronous so dispatch can finish before observers run.
-        setTimeout(() => callback(currentValue, previousValue, path), 0);
+        setTimeout(() => {
+          const liveWatcher = watchers.get(objectPath);
+          if (liveWatcher === watcher && liveWatcher.callbacks.has(callback)) {
+            callback(currentValue, previousValue, path);
+          }
+        }, 0);
       });
     }
   });
@@ -112,10 +116,15 @@ export const setStore = (nextStore, customStateGetter) => {
     throw new TypeError('customStateGetter must be a function');
   }
 
+  const nextStateGetter =
+    customStateGetter ?? ((configuredStore) => configuredStore.getState());
+  const nextState = nextStateGetter(nextStore);
+  getPathValue(nextState, []);
+
   unsubscribeStore?.();
   store = nextStore;
-  stateGetter = customStateGetter ?? ((configuredStore) => configuredStore.getState());
-  currentState = stateGetter(store);
+  stateGetter = nextStateGetter;
+  currentState = nextState;
 
   const unsubscribe = store.subscribe(handleStoreChange);
   unsubscribeStore = typeof unsubscribe === 'function' ? unsubscribe : undefined;
@@ -151,13 +160,17 @@ export const watch = (objectPath, callback) => {
     throw new TypeError('watch requires a non-empty string path');
   }
 
+  if (objectPath.startsWith('.') || objectPath.endsWith('.') || objectPath.includes('..')) {
+    throw new TypeError('watch path must not contain leading, trailing, or consecutive dots');
+  }
+
   if (typeof callback !== 'function') {
     throw new TypeError('watch requires a callback function');
   }
 
   let watcher = watchers.get(objectPath);
   if (!watcher) {
-    watcher = {path: objectPath.split('.'), callbacks: new Set()};
+    watcher = {path: Object.freeze(objectPath.split('.')), callbacks: new Set()};
     watchers.set(objectPath, watcher);
   }
 
